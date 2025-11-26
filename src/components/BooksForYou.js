@@ -28,20 +28,15 @@ export default function BooksForYou() {
 
   if (isLoading)
     return (
-      <div className="max-w-7xl mx-auto">
-        <Heading text="Your Reading List" />
-        <div className="flex flex-wrap gap-3 overflow-auto my-6">
+      <div className="max-w-6xl mx-auto">
+        <Heading text="Books For You" />
+        <div className="flex sm:flex-wrap flex-nowrap gap-3 overflow-auto my-6 p-6 justify-evenly">
           {[...Array(20)].map((_, index) => (
             <SkeletonCard key={index} />
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-2 animate-pulse">
-          <div className="bg-gray-300 h-5 rounded w-32"></div>
-          <div className="bg-gray-300 h-5 rounded w-28"></div>
-          <div className="bg-gray-300 h-5 rounded w-36"></div>
-          <div className="bg-gray-300 h-5 rounded w-28"></div>
-        </div>
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mt-8 flex justify-between sm:justify-center gap-4 px-6">
+          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
           <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
           <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
         </div>
@@ -72,9 +67,9 @@ export default function BooksForYou() {
 
   console.log(books);
   return (
-    <div className="max-w-7xl mx-auto p-6 pr-0">
+    <div className="max-w-6xl mx-auto p-6 pr-0">
       <Heading text="Books For You" />
-      <div className="flex overflow-auto sm:flex-wrap gap-3">
+      <div className="flex overflow-auto sm:flex-wrap gap-3 justify-evenly scrollbar-hide">
         {books.map((book, index) => {
           return (
             <div key={`${page}-${book.id || index}`} className="shrink-0">
@@ -88,18 +83,13 @@ export default function BooksForYou() {
           );
         })}
       </div>
-      <div>
-        <div className="grid grid-cols-2">
-          <div>Current page: {page}</div>
-          <div>Total Items: {totalItems}</div>
-          <div>Items per Pages : {itemsPerPage}</div>
-          <div>Total Pages: {totalPages}</div>
-        </div>
-      </div>
-      <div className="mt-8 flex justify-center gap-4">
+      <div className="mt-8 flex justify-between sm:justify-center  gap-4 pr-6">
         <Button onClick={goToPrevPage} disabled={page === 1}>
           Prev
         </Button>
+        <div>
+          {page} / {totalPages}
+        </div>
         <Button onClick={goToNextPage}>Next</Button>
       </div>
     </div>

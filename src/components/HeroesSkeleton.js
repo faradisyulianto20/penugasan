@@ -1,6 +1,6 @@
 export function HeroesSkeleton() {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <div className="flex px-6 text-gray-500 w-fit mx-auto md:m-0 animate-pulse">
         <div className="bg-gray-300 h-5 w-32 rounded"></div>
       </div>

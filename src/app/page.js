@@ -13,9 +13,9 @@ export default function Home() {
       <ScanCover />
       <ReadingList />
       <BooksForYou />
-      <UseBook />
-      <RandomBook />
-      <StatsGenre />
+      {/* <UseBook /> */}
+      {/* <RandomBook /> */}
+      {/* <StatsGenre /> */}
     </div>
   );
 }

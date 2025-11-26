@@ -10,7 +10,7 @@ import {
 export default function Promo() {
   return (
     <div className=" bg-[#23856D] text-white ">
-      <div className="max-w-7xl hidden md:flex justify-between p-6 mx-auto">
+      <div className="max-w-6xl hidden md:flex justify-between p-6 py-4 mx-auto">
         <div className="flex gap-6">
           <div className="flex gap-3">
             <Phone />

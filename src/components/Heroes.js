@@ -50,7 +50,7 @@ export default function Heroes() {
   console.log(random_books);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <div className="flex px-6 text-gray-500 w-fit mx-auto md:m-0">
         <span className="font-semibold text-black">Home</span> <ChevronRight />{" "}
         Books

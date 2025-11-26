@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Promo from "@/components/Promo";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,8 +27,10 @@ export default function Navbar() {
     <div className="fixed top-0 left-0 w-screen z-100">
       <Promo />
       <div className="bg-white  z-50 shadow">
-        <div className="max-w-7xl p-6 flex flex-col md:flex-row justify-between gap-6 mx-auto">
-          <span className="font-semibold text-lg sm:text-xl">Bookstar</span>
+        <div className="max-w-6xl p-6 flex flex-col md:flex-row justify-between gap-6 mx-auto">
+          <Link href="/" className="font-semibold text-lg sm:text-xl">
+            Bookstar
+          </Link>
 
           <nav
             className={`md:flex ${
@@ -35,35 +38,38 @@ export default function Navbar() {
             } flex-col md:flex-row text-center gap-3`}
           >
             <ul className="flex flex-col md:flex-row text-center gap-3 items-center">
-              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
+              <Link
+                href={"/"}
+                className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer"
+              >
                 Home
-              </li>
+              </Link>
               <li className="flex w-full justify-center text-gray-500 focus:text-black font-semibold cursor-pointe">
                 <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="flex items-center gap-1">
+                  <DropdownMenuTrigger className="flex items-center gap-1 cursor-pointer">
                     Shop
                     <ChevronDown className="hidden sm:block w-5 h-5" />
                   </DropdownMenuTrigger>
 
-                  <DropdownMenuContent className={"rounded-none z-200"}>
-                    <DropdownMenuItem>Item 1</DropdownMenuItem>
-                    <DropdownMenuItem>Item 2</DropdownMenuItem>
-                    <DropdownMenuItem>Item 3</DropdownMenuItem>
+                  <DropdownMenuContent className={"rounded-none z-200 flex flex-col"}>
+                    <Link href={"/shop"} className="hover:bg-blue-200 p-3 py-1">Item 1</Link>
+                    <Link href={"/shop"} className="hover:bg-blue-200 p-3 py-1">Item 1</Link>
+                    <Link href={"/shop"} className="hover:bg-blue-200 p-3 py-1">Item 1</Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
+              <Link href={"/about"} className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 About
-              </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
+              </Link>
+              <Link href={"/blog"} className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Blog
-              </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
+              </Link>
+              <Link href={"/contacts"} className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Contacts
-              </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
+              </Link>
+              <Link href={"/page"} className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Page
-              </li>
+              </Link>
             </ul>
           </nav>
 

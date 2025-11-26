@@ -11,80 +11,158 @@ import { Button } from "@/components/ui/button";
 import { useBooks } from "@/hooks/useBooks";
 
 import CardCustom from "@/components/CardCustom";
+import BookScanSkeleton from "@/components/BookScanSkeleton";
 
 export default function UploadPage() {
   const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [page, setPage] = useState(null);
+  const [sort, setSort] = useState(null);
+  const [year, setYear] = useState(null);
+  const [genre, setGenre] = useState(null);
+  const [keyword, setKeyword] = useState(null);
+
   const { data, error, isPending, refetch } = useScanBook(file);
 
-  const { data: booksData, isLoading, isError } = useBooks({});
+  const {
+    data: booksData,
+    isLoading,
+    isError,
+    error: booksError,
+  } = useBooks({ page, sort, year, genre, keyword });
 
-  if (isLoading) return <div>Loading....</div>;
-  if (isError) return <div>Error {error.message}</div>;
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
 
-  const books = booksData?.data?.books;
+  const handleSearch = async () => {
+    const result = await refetch();
 
-  console.log(books);
+    if (result.data) {
+      setYear(result.data.year || null);
+      setGenre(result.data.genre || null);
+    }
+  };
+
+  if (isLoading) return <BookScanSkeleton />;
+  if (isError) return <div>Error {booksError?.message}</div>;
+
+  const books = booksData?.data?.books || [];
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6">
       <Heading text={"Scan Book Cover"} />
 
-      <h3></h3>
-      <div className="flex w-full justify-center gap-3">
+      <div className="flex w-full justify-center gap-3 my-6">
         <div>
           <Input
             id="picture"
             type="file"
             accept="image/*,.pdf"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFileChange}
           />
         </div>
 
-        <Button onClick={refetch} disabled={!file || isPending}>
+        <Button onClick={handleSearch} disabled={!file || isPending}>
           {isPending ? "Processing..." : "Search"}
         </Button>
       </div>
 
-      {error && <p>{error.message}</p>}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded my-4">
+          {error.message}
+        </div>
+      )}
 
-      <div className="flex">
-        {data && (
-          <div className="border border-2-black w-full mx-auto px-6 py-4 rounded-2xl ">
-            <p>
-              <span className="font-bold">Title : </span>
-              {data.title}
-              {data.title == null && <p>"Data tidak terdeteksi"</p>}
-            </p>
-            <p>
-              <span className="font-bold">Author : </span> {data.author}
-              {data.author == null && <p>"Data tidak terdeteksi"</p>}
-            </p>
-            <p>
-              <span className="font-bold">Year : </span> {data.year}
-              {data.year == null && "Data tidak terdeteksi"}
-            </p>
-            <p>
-              <span className="font-bold">Genre : </span> {data.genre}
-              {data.genre == null && <p>"Data tidak terdeteksi"</p>}
-            </p>
+      <div className="flex flex-col md:flex-row gap-6 my-6">
+        {preview && data && (
+          <div className="w-full md:w-1/3">
+            <img
+              src={preview}
+              alt="Uploaded book cover"
+              className="w-full h-auto rounded-lg shadow-lg object-cover"
+            />
           </div>
         )}
 
-        <div className="flex overflow-auto gap-3 my-6">
-          {books.map((book, index) => {
-            return (
-              <div key={`${index}-${book.id || index}`} className="shrink-0">
-                <CardCustom
-                  image_url={book.cover_image}
-                  title={book.title}
-                  genre={book.category.name}
-                  price={book.details.price}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {data && (
+          <div className="border-2 border-gray-300 w-full px-6 py-4 rounded-2xl">
+            <Heading text={"Scan Result"} />
+            <div className="space-y-2">
+              <p>
+                <span className="font-bold">Title: </span>
+                {data.title || (
+                  <span className="text-gray-500 italic">
+                    Data tidak terdeteksi
+                  </span>
+                )}
+              </p>
+              <p>
+                <span className="font-bold">Author: </span>
+                {data.author || (
+                  <span className="text-gray-500 italic">
+                    Data tidak terdeteksi
+                  </span>
+                )}
+              </p>
+              <p>
+                <span className="font-bold">Year: </span>
+                {data.year || (
+                  <span className="text-gray-500 italic">
+                    Data tidak terdeteksi
+                  </span>
+                )}
+              </p>
+              <p>
+                <span className="font-bold">Genre: </span>
+                {data.genre || (
+                  <span className="text-gray-500 italic">
+                    Data tidak terdeteksi
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
+
+      {data && (
+        <div className="my-6">
+          <h2 className="text-2xl font-bold mb-4">
+            Similar Books {books.length > 0 && `(${books.length})`}
+          </h2>
+
+          {books.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              No similar books found
+            </div>
+          ) : (
+            <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide">
+              {books.map((book, index) => (
+                <div
+                  key={book.id || `${index}-${book.title}`}
+                  className="shrink-0"
+                >
+                  <CardCustom
+                    image_url={book.cover_image}
+                    title={book.title}
+                    genre={book.category?.name}
+                    price={book.details?.price}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
