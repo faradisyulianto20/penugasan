@@ -6,7 +6,7 @@ import Heading from "@/components/typography/Heading";
 import CardCustom from "@/components/CardCustom";
 import { Button } from "@/components/ui/button";
 
-export default function ReadingList() {
+export default function BooksForYou() {
   const [page, setPage] = useState(1);
 
   const {
@@ -49,12 +49,11 @@ export default function ReadingList() {
   const totalPages = booksData?.data?.pagination?.totalPages;
   console.log(books);
 
+  console.log(books);
   return (
-    <div className="flex flex-col gap-3">
-      <div>
-        <Heading text={"Your Reading List"} />
-      </div>
-      <div className="flex overflow-auto gap-3">
+    <div>
+      <Heading text="Books For You" />
+      <div className="flex flex-wrap gap-3">
         {books.map((book, index) => {
           return (
             <div key={index} className="shrink-0">
