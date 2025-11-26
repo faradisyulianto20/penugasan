@@ -16,7 +16,7 @@ export default function ScanCover() {
           const file = e.target.files?.[0];
           if (file) scanCover.mutate(file);
         }}
-        className="border p-2 rounded"
+        className="border p-2 rounded max-w-full"
       />
 
       {scanCover.isPending && <p>Scanning...</p>}
