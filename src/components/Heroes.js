@@ -37,11 +37,14 @@ export default function Heroes() {
 
         {data.map((book, index) => {
           return (
-            <div className="py-6 flex flex-col gap-3">
+            <div className="py-6 flex flex-col gap-3" key={index}>
               <div className="flex flex-col sm:flex-row gap-3">
                 {book.genre.map((genre, index) => {
                   return (
-                    <span className="bg-gray-300 px-4 py-1 rounded-full w-fit">
+                    <span
+                      className="bg-gray-300 px-4 py-1 rounded-full w-fit"
+                      key={index}
+                    >
                       {genre}
                     </span>
                   );
