@@ -20,8 +20,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Providers>
         <Navbar />
-        <body className={`${inter.variable} antialiased bg-gray-50`}>
-          <div className="mt-28">{children}</div>
+        <body className={`${inter.variable} antialiased bg-[#FAFAFA]`}>
+          <div className="mt-28 sm:mt-44">{children}</div>
         </body>
       </Providers>
     </html>

@@ -34,6 +34,7 @@ export default function CardCustom({
           height={150}
           className="aspect-3/4 w-full object-cover"
           onError={handleError}
+          
         />
       </CardHeader>
       {/* <CardContent><p>Card Content</p></CardContent> */}

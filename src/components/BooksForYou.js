@@ -5,6 +5,7 @@ import { useBooks } from "@/hooks/useBooks";
 import Heading from "@/components/typography/Heading";
 import CardCustom from "@/components/CardCustom";
 import { Button } from "@/components/ui/button";
+import SkeletonCard from "@/components/SkeletonCard";
 
 export default function BooksForYou() {
   const [page, setPage] = useState(1);
@@ -25,7 +26,27 @@ export default function BooksForYou() {
     setPage((prevPage) => Math.max(1, prevPage - 1));
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <div className="max-w-7xl mx-auto">
+        <Heading text="Your Reading List" />
+        <div className="flex flex-wrap gap-3 overflow-auto my-6">
+          {[...Array(20)].map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-2 animate-pulse">
+          <div className="bg-gray-300 h-5 rounded w-32"></div>
+          <div className="bg-gray-300 h-5 rounded w-28"></div>
+          <div className="bg-gray-300 h-5 rounded w-36"></div>
+          <div className="bg-gray-300 h-5 rounded w-28"></div>
+        </div>
+        <div className="mt-8 flex justify-center gap-4">
+          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
+          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
+        </div>
+      </div>
+    );
   if (isError) return <p>Error fetching data</p>;
 
   const books = booksData?.data?.books;
@@ -51,12 +72,12 @@ export default function BooksForYou() {
 
   console.log(books);
   return (
-    <div>
+    <div className="max-w-7xl mx-auto p-6 pr-0">
       <Heading text="Books For You" />
-      <div className="flex flex-wrap gap-3">
+      <div className="flex overflow-auto sm:flex-wrap gap-3">
         {books.map((book, index) => {
           return (
-            <div key={index} className="shrink-0">
+            <div key={`${page}-${book.id || index}`} className="shrink-0">
               <CardCustom
                 image_url={book.cover_image}
                 title={book.title}

@@ -6,6 +6,8 @@ import Heading from "@/components/typography/Heading";
 import CardCustom from "@/components/CardCustom";
 import { Button } from "@/components/ui/button";
 
+import SkeletonCard from "@/components/SkeletonCard";
+
 export default function ReadingList() {
   const [page, setPage] = useState(1);
 
@@ -22,10 +24,32 @@ export default function ReadingList() {
   };
 
   const goToPrevPage = () => {
-    setPage((prevPage) => Math.max(1, prevPage - 1));
+    setPage((prevPage) => prevPage - 1);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto">
+        <Heading text="Your Reading List" />
+        <div className="flex gap-3 overflow-auto my-6">
+          {[...Array(7)].map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-2 animate-pulse">
+          <div className="bg-gray-300 h-5 rounded w-32"></div>
+          <div className="bg-gray-300 h-5 rounded w-28"></div>
+          <div className="bg-gray-300 h-5 rounded w-36"></div>
+          <div className="bg-gray-300 h-5 rounded w-28"></div>
+        </div>
+        <div className="mt-8 flex justify-center gap-4">
+          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
+          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
+        </div>
+      </div>
+    );
+  }
+
   if (isError) return <p>Error fetching data</p>;
 
   const books = booksData?.data?.books;
@@ -50,14 +74,14 @@ export default function ReadingList() {
   console.log(books);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 max-w-7xl mx-auto p-6 pr-0">
       <div>
         <Heading text={"Your Reading List"} />
       </div>
       <div className="flex overflow-auto gap-3">
         {books.map((book, index) => {
           return (
-            <div key={index} className="shrink-0">
+            <div key={`${page}-${book.id || index}`} className="shrink-0">
               <CardCustom
                 image_url={book.cover_image}
                 title={book.title}
