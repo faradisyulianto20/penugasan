@@ -1,27 +1,90 @@
 "use client";
 
-import { useScanCover } from "@/hooks/useScanCover";
+import { useState } from "react";
+import { useScanBook } from "@/hooks/useScanBook";
 
-export default function ScanCover() {
-  const scanCover = useScanCover();
+import Heading from "@/components/typography/Heading";
 
-  console.log(scanCover?.data);
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useBooks } from "@/hooks/useBooks";
+
+import CardCustom from "@/components/CardCustom";
+
+export default function UploadPage() {
+  const [file, setFile] = useState(null);
+  const { data, error, isPending, refetch } = useScanBook(file);
+
+  const { data: booksData, isLoading, isError } = useBooks({});
+
+  if (isLoading) return <div>Loading....</div>;
+  if (isError) return <div>Error {error.message}</div>;
+
+  const books = booksData?.data?.books;
+
+  console.log(books);
 
   return (
-    <div className="p-6 space-y-4">
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) scanCover.mutate(file);
-        }}
-        className="border p-2 rounded max-w-full"
-      />
+    <div className="max-w-7xl mx-auto p-6">
+      <Heading text={"Scan Book Cover"} />
 
-      {scanCover.isPending && <p>Scanning...</p>}
+      <h3></h3>
+      <div className="flex w-full justify-center gap-3">
+        <div>
+          <Input
+            id="picture"
+            type="file"
+            accept="image/*,.pdf"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+        </div>
 
-      {scanCover.data?.text && <p>Hasil OCR: {scanCover.data.text}</p>}
+        <Button onClick={refetch} disabled={!file || isPending}>
+          {isPending ? "Processing..." : "Search"}
+        </Button>
+      </div>
+
+      {error && <p>{error.message}</p>}
+
+      <div className="flex">
+        {data && (
+          <div className="border border-2-black w-full mx-auto px-6 py-4 rounded-2xl ">
+            <p>
+              <span className="font-bold">Title : </span>
+              {data.title}
+              {data.title == null && <p>"Data tidak terdeteksi"</p>}
+            </p>
+            <p>
+              <span className="font-bold">Author : </span> {data.author}
+              {data.author == null && <p>"Data tidak terdeteksi"</p>}
+            </p>
+            <p>
+              <span className="font-bold">Year : </span> {data.year}
+              {data.year == null && "Data tidak terdeteksi"}
+            </p>
+            <p>
+              <span className="font-bold">Genre : </span> {data.genre}
+              {data.genre == null && <p>"Data tidak terdeteksi"</p>}
+            </p>
+          </div>
+        )}
+
+        <div className="flex overflow-auto gap-3 my-6">
+          {books.map((book, index) => {
+            return (
+              <div key={`${index}-${book.id || index}`} className="shrink-0">
+                <CardCustom
+                  image_url={book.cover_image}
+                  title={book.title}
+                  genre={book.category.name}
+                  price={book.details.price}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

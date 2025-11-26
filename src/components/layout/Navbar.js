@@ -35,10 +35,10 @@ export default function Navbar() {
             } flex-col md:flex-row text-center gap-3`}
           >
             <ul className="flex flex-col md:flex-row text-center gap-3 items-center">
-              <li className="text-gray-500 hover:text-black font-semibold h-fit">
+              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Home
               </li>
-              <li className="flex w-full justify-center text-gray-500 focus:text-black font-semibold">
+              <li className="flex w-full justify-center text-gray-500 focus:text-black font-semibold cursor-pointe">
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="flex items-center gap-1">
                     Shop
@@ -52,16 +52,16 @@ export default function Navbar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit">
+              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 About
               </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit">
+              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Blog
               </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit">
+              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Contacts
               </li>
-              <li className="text-gray-500 hover:text-black font-semibold h-fit">
+              <li className="text-gray-500 hover:text-black font-semibold h-fit cursor-pointer">
                 Page
               </li>
             </ul>
@@ -79,18 +79,18 @@ export default function Navbar() {
               isMobileMenuOpen ? "flex" : "hidden"
             } md:flex flex-col md:flex-row gap-3 items-center text-blue-400 mt-4 sm:mt-0`}
           >
-            <div className="flex gap-3 w-fit">
+            <div className="flex gap-3 w-fit cursor-pointer hover:text-blue-300">
               <CircleUserRound />
-              <span className="sm:font-bold">Login/Register</span>
+              <span className="sm:font-bold ">Login/Register</span>
             </div>
-            <div>
+            <div className=" cursor-pointer  hover:text-blue-30">
               <Search />
             </div>
-            <div className="flex">
+            <div className="flex cursor-pointer  hover:text-blue-30">
               <ShoppingCart />
               <span>1</span>
             </div>
-            <div className="flex">
+            <div className="flex cursor-pointer  hover:text-blue-30">
               <Heart />
               <span>1</span>
             </div>

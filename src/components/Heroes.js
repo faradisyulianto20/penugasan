@@ -16,7 +16,6 @@ const data = {
   ISBN: "938-1-234567-90-6",
   published: "January 20, 2024",
 };
-import { Button } from "@/components/ui/button";
 import { HrefButton } from "@/components/HrefButton";
 import {
   Heart,
@@ -25,6 +24,8 @@ import {
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
+import Link from "next/link";
+import { HeroesSkeleton } from "@/components/HeroesSkeleton";
 
 export default function Heroes() {
   const {
@@ -39,7 +40,7 @@ export default function Heroes() {
     refetch();
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <HeroesSkeleton />;
   if (isError) return <div>Error {error.message}</div>;
 
   console.log(data);
@@ -54,12 +55,12 @@ export default function Heroes() {
         <span className="font-semibold text-black">Home</span> <ChevronRight />{" "}
         Books
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center p-6">
-        <div className="relative w-full h-64 md:h-80 flex items-center justify-center gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 p-6 gap-6">
+        <div className="relative w-full h-[500px] md:h-full flex items-center justify-center">
           <button
             onClick={getNewBook}
             disabled={isLoading}
-            className="absolute left-0 sm:left-42 z-10 p-2 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-300 rounded-full"
+            className="absolute left-4 z-10 p-2 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-300 hover:bg-gray-400 transition-colors rounded-full shadow-lg cursor-pointer"
           >
             <ChevronLeft className="w-6 h-6 text-white" />
           </button>
@@ -69,20 +70,20 @@ export default function Heroes() {
               alt="book-image"
               src={random_books.cover_image}
               fill
-              className="object-contain mx-auto"
+              className="object-contain"
             />
           </div>
 
           <button
             onClick={getNewBook}
             disabled={isLoading}
-            className="absolute right-0 sm:right-42 z-10 p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed bg-gray-300"
+            className="absolute right-4 z-10 p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed bg-gray-300 hover:bg-gray-400 transition-colors shadow-lg cursor-pointer"
           >
             <ChevronRight className="w-6 h-6 text-white" />
           </button>
         </div>
 
-        <div className="py-6 flex flex-col gap-3">
+        <div className="flex flex-col gap-3 justify-center">
           <div className="flex flex-col sm:flex-row gap-3">
             <span className="bg-gray-300 px-4 py-1 rounded-full w-fit">
               {random_books.category.name}
@@ -130,9 +131,11 @@ export default function Heroes() {
             <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
               <ShoppingCart className="w-5 h-5" />
             </div>
-            <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
-              <Eye className="w-5 h-5" />
-            </div>
+            <Link href={`/book?_id=${random_books._id}`}>
+              <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
+                <Eye className="w-5 h-5" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

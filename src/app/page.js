@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div>
       <Heroes />
+      <ScanCover />
       <ReadingList />
       <BooksForYou />
-      <ScanCover />
       <UseBook />
       <RandomBook />
       <StatsGenre />
