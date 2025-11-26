@@ -1,5 +1,4 @@
-
-import { Inter } from 'next/font/google';
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 export const metadata = {
@@ -8,9 +7,9 @@ export const metadata = {
 };
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',    
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 import Providers from "@/components/Providers";
@@ -19,15 +18,12 @@ import Navbar from "@/components/layout/Navbar";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} antialiased px-3 sm:px-6 lg:px-12 `}
-      >
-        <Providers>
-        <Navbar/>
-          {children}
-          
-        </Providers>
-      </body>
+      <Providers>
+        <Navbar />
+        <body className={`${inter.variable} antialiased bg-gray-50`}>
+          <div className="px-3 sm:px-6 lg:px-12 mt-32">{children}</div>
+        </body>
+      </Providers>
     </html>
   );
 }

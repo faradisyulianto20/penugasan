@@ -23,12 +23,12 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="p-6 flex flex-col md:flex-row w-full justify-between gap-6 relative bg-white">
+      <div className="fixed top-0 left-0 w-screen p-6 flex flex-col md:flex-row justify-between gap-6 bg-white  z-50 shadow">
         <span className="font-semibold text-lg sm:text-xl">Bookstar</span>
 
         <nav
           className={`md:flex ${
-            isMobileMenuOpen ? "flex" : "hidden"
+            isMobileMenuOpen ? "flex " : "hidden"
           } flex-col md:flex-row text-center gap-3`}
         >
           <ul className="flex flex-col md:flex-row text-center gap-3 items-center">
@@ -92,9 +92,6 @@ export default function Navbar() {
             <span>1</span>
           </div>
         </div>
-      </div>
-      <div className="flex px-6 text-gray-500">
-        <span className="font-semibold text-black">Home</span> <ChevronRight /> Books
       </div>
     </>
   );
