@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
       <Providers>
         <Navbar />
         <body className={`${inter.variable} antialiased bg-[#FAFAFA]`}>
-          <div className="mt-28 sm:mt-44">{children}</div>
+          <div className="mt-24 md:mt-44">{children}</div>
         </body>
       </Providers>
     </html>

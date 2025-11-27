@@ -1,6 +1,6 @@
 "use client";
 
-import { useRandomBook } from "@/hooks/useBooks";
+import { useRandomBook, useAddToCart } from "@/hooks/useBooks";
 
 import Image from "next/image";
 
@@ -16,6 +16,7 @@ const data = {
   ISBN: "938-1-234567-90-6",
   published: "January 20, 2024",
 };
+
 import { HrefButton } from "@/components/HrefButton";
 import {
   Heart,
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { HeroesSkeleton } from "@/components/HeroesSkeleton";
+import { useAddToWishlist } from "@/hooks/useBooks";
 
 export default function Heroes() {
   const {
@@ -36,6 +38,11 @@ export default function Heroes() {
     refetch,
   } = useRandomBook({});
 
+  const { mutate: addToWishlistMutate, isPending: isAddingToWishlist } =
+    useAddToWishlist();
+
+  const { mutate: addToCartMutate, isPending: isAddingToCart } = useAddToCart();
+
   const getNewBook = () => {
     refetch();
   };
@@ -43,17 +50,39 @@ export default function Heroes() {
   if (isLoading) return <HeroesSkeleton />;
   if (isError) return <div>Error {error.message}</div>;
 
-  console.log(data);
-
   const random_books = randomBooksData?.data;
 
-  console.log(random_books);
+  if (!random_books) return <div>No book data available.</div>;
+
+  const handleAddToCart = () => {
+    addToCartMutate(random_books, {
+      onSuccess: () => {
+        alert(`${random_books.title} added to cart!`);
+      },
+      onError: (err) => {
+        console.error("Failed to add to cart:", err);
+        alert("Failed to add to cart.");
+      },
+    });
+  };
+
+  const handleAddToWishlist = () => {
+    addToWishlistMutate(random_books, {
+      onSuccess: () => {
+        alert(`${random_books.title} added to wishlist!`);
+      },
+      onError: (err) => {
+        console.error("Failed to add to wishlist:", err);
+        alert("Failed to add to wishlist.");
+      },
+    });
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex px-6 text-gray-500 w-fit mx-auto md:m-0">
         <span className="font-semibold text-black">Home</span> <ChevronRight />{" "}
-        Books
+        Shop
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 p-6 gap-6">
         <div className="relative w-full h-[500px] md:h-full flex items-center justify-center">
@@ -68,7 +97,7 @@ export default function Heroes() {
           <div className="relative w-full h-full">
             <Image
               alt="book-image"
-              src={random_books.cover_image}
+              src={random_books.cover_image || "/placeholder.jpg"}
               fill
               className="object-contain"
             />
@@ -89,16 +118,16 @@ export default function Heroes() {
               {random_books.category.name}
             </span>
           </div>
-          <div>
-            <h1 className="font-bold text-4xl">{random_books.title}</h1>
-            <h2 className="font-bold text-xl">{random_books.details.price}</h2>
-            <h3 className="font-semibold">
+          <div className="mt-3">
+            <h1 className="font-bold text-3xl md:text-4xl">{random_books.title}</h1>
+            <h2 className="font-bold text-lg md:text-xl">{random_books.details.price}</h2>
+            <h3 className="font-semibold text-gray-700">
               Availability:{" "}
               <span className="font-bold text-blue-400">
                 {data.avialability}
               </span>
             </h3>
-            <p className="text-gray-500 max-h-24 overflow-auto">
+            <p className="text-gray-500 max-h-24 overflow-auto my-6">
               {random_books.summary}
             </p>
             <ul className="text-gray-500">
@@ -120,17 +149,31 @@ export default function Heroes() {
               </li>
             </ul>
           </div>
-          <div className="flex gap-3 items-center">
+
+          <div className="flex gap-3 items-center mt-6">
             <HrefButton
               text={"Buy Now"}
-              href={random_books?.buy_links[0]?.url}
+              href={random_books?.buy_links?.[0]?.url}
             />
-            <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
+
+            <button
+              onClick={handleAddToWishlist}
+              disabled={isAddingToWishlist}
+              className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              title={isAddingToWishlist ? "Adding..." : "Add to Wishlist"}
+            >
               <Heart className="w-5 h-5" />
-            </div>
-            <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
+            </button>
+
+            <button
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
+              className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              title={isAddingToCart ? "Adding..." : "Add to Cart"}
+            >
               <ShoppingCart className="w-5 h-5" />
-            </div>
+            </button>
+
             <Link href={`/book?_id=${random_books._id}`}>
               <div className="bg-blue-200 hover:bg-blue-100 flex justify-items-center p-1 rounded-full w-7 h-7 cursor-pointer">
                 <Eye className="w-5 h-5" />

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const DEFAULT_IMAGE_URL = "/default.png";
 
@@ -25,24 +25,22 @@ export default function CardCustom({
   };
 
   return (
-    <Card className={"bg-white rounded-none w-[209px] gap-0 p-0 shadow-none"}>
-      <CardHeader className={"p-0 flex"}>
+    <Card className={"bg-white rounded-none w-[209px] gap-0 p-0 "}>
+      <CardHeader className={"p-0 flex overflow-hidden"}>
         <Image
           src={currentImageUrl}
           alt={"Book Image"}
-          width={150}
-          height={150}
-          className="aspect-3/4 w-full object-cover"
+          width={239}
+          height={280}
+          className="aspect-3/4 w-full object-cover transition-transform duration-300 hover:scale-110"
           onError={handleError}
-          
         />
       </CardHeader>
-      {/* <CardContent><p>Card Content</p></CardContent> */}
-      <CardFooter className={"flex gap-2 font-bold flex-col items-start p-6"}>
-        <CardTitle className={"font-bold overflow-auto h-12"}>
+      <CardFooter className={"flex gap-2.5 font-bold flex-col items-start p-6"}>
+        <CardTitle className={"font-bold overflow-auto h-10"}>
           {title}
         </CardTitle>
-        <CardDescription className={"font-semibold text-gray-500"}>
+        <CardDescription className={"font-semibold text-gray-500 max-h-5 overflow-auto"}>
           {genre}
         </CardDescription>
         <div className="flex gap-3">

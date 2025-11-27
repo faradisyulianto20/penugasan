@@ -6,6 +6,7 @@ import Heading from "@/components/typography/Heading";
 import CardCustom from "@/components/CardCustom";
 import { Button } from "@/components/ui/button";
 import SkeletonCard from "@/components/SkeletonCard";
+import Link from "next/link";
 
 export default function BooksForYou() {
   const [page, setPage] = useState(1);
@@ -28,16 +29,16 @@ export default function BooksForYou() {
 
   if (isLoading)
     return (
-      <div className="max-w-6xl mx-auto">
-        <Heading text="Books For You" />
-        <div className="flex sm:flex-wrap flex-nowrap gap-3 overflow-auto my-6 p-6 justify-evenly">
+      <div className="max-w-6xl mx-auto p-6 pr-0">
+        <Heading text="Books For You"/>
+        <div className="flex sm:flex-wrap flex-nowrap gap-3 overflow-auto justify-evenly">
           {[...Array(20)].map((_, index) => (
             <SkeletonCard key={index} />
           ))}
         </div>
         <div className="mt-8 flex justify-between sm:justify-center gap-4 px-6">
           <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
-          <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
+          <div className="bg-gray-300 h-6 w-20 rounded animate-pulse"></div>
           <div className="bg-gray-300 h-10 w-20 rounded animate-pulse"></div>
         </div>
       </div>
@@ -69,17 +70,17 @@ export default function BooksForYou() {
   return (
     <div className="max-w-6xl mx-auto p-6 pr-0">
       <Heading text="Books For You" />
-      <div className="flex overflow-auto sm:flex-wrap gap-3 justify-evenly scrollbar-hide">
+      <div className="flex overflow-auto sm:flex-wrap gap-5 justify-evenly scrollbar-hide">
         {books.map((book, index) => {
           return (
-            <div key={`${page}-${book.id || index}`} className="shrink-0">
+            <Link key={`${page}-${book._id || index}`} className="shrink-0" href={`/book?_id=${book._id}`}>
               <CardCustom
                 image_url={book.cover_image}
                 title={book.title}
                 genre={book.category.name}
                 price={book.details.price}
               />
-            </div>
+            </Link>
           );
         })}
       </div>

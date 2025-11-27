@@ -12,6 +12,7 @@ import { useBooks } from "@/hooks/useBooks";
 
 import CardCustom from "@/components/CardCustom";
 import BookScanSkeleton from "@/components/BookScanSkeleton";
+import Link from "next/link";
 
 export default function UploadPage() {
   const [file, setFile] = useState(null);
@@ -47,7 +48,6 @@ export default function UploadPage() {
     const result = await refetch();
 
     if (result.data) {
-      setYear(result.data.year || null);
       setGenre(result.data.genre || null);
     }
   };
@@ -94,9 +94,9 @@ export default function UploadPage() {
         )}
 
         {data && (
-          <div className="border-2 border-gray-300 w-full px-6 py-4 rounded-2xl">
-            <Heading text={"Scan Result"} />
-            <div className="space-y-2">
+          <div className="border-2 border-gray-300 w-full px-6 py-4 rounded-md">
+            <h1 className="font-bold text-xl mb-2">Scan Result</h1>
+            <div className="">
               <p>
                 <span className="font-bold">Title: </span>
                 {data.title || (
@@ -145,10 +145,11 @@ export default function UploadPage() {
               No similar books found
             </div>
           ) : (
-            <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide">
+            <div className="flex overflow-x-auto gap-5 pb-4 scrollbar-hide">
               {books.map((book, index) => (
-                <div
-                  key={book.id || `${index}-${book.title}`}
+                <Link
+                  key={book._id || `${index}-${book.title}`}
+                  href={`/book?_id=${book._id}`}
                   className="shrink-0"
                 >
                   <CardCustom
@@ -157,7 +158,7 @@ export default function UploadPage() {
                     genre={book.category?.name}
                     price={book.details?.price}
                   />
-                </div>
+                </Link>
               ))}
             </div>
           )}
