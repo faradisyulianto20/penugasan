@@ -25,7 +25,7 @@ export default function CardCustom({
   };
 
   return (
-    <Card className={"bg-white rounded-none w-[209px] gap-0 p-0 "}>
+    <Card className={"bg-white rounded-none w-[209px] gap-0 p-0 shadow-none border-none"}>
       <CardHeader className={"p-0 flex overflow-hidden"}>
         <Image
           src={currentImageUrl}
@@ -37,7 +37,7 @@ export default function CardCustom({
         />
       </CardHeader>
       <CardFooter className={"flex gap-2.5 font-bold flex-col items-start p-6"}>
-        <CardTitle className={"font-bold overflow-auto h-10"}>
+        <CardTitle className={"font-semibold overflow-auto h-10"}>
           {title}
         </CardTitle>
         <CardDescription className={"font-semibold text-gray-500 max-h-5 overflow-auto"}>

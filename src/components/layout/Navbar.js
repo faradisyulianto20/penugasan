@@ -19,7 +19,6 @@ import Promo from "@/components/Promo";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import SearchResults from "@/components/SearchResults";
-// <-- IMPORT HOOKS UNTUK MENGAMBIL DATA CART & WISHLIST
 import { useCart, useWishlist } from "@/hooks/useBooks";
 
 export default function Navbar() {
@@ -29,25 +28,20 @@ export default function Navbar() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const searchRef = useRef(null);
 
-  // --- AMBIL DATA CART & WISHLIST ---
   const { data: cartItems } = useCart();
   const { data: wishlistItems } = useWishlist();
 
-  // Hitung jumlah item. Gunakan 0 jika data masih loading/null/undefined.
   const cartCount = cartItems?.length || 0;
   const wishlistCount = wishlistItems?.length || 0;
-  // ------------------------------------
 
-  // Debounce search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchQuery);
-    }, 500); // Tunggu 500ms setelah user berhenti mengetik
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Close search when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (searchRef.current && !searchRef.current.contains(event.target)) {

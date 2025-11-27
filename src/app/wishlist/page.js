@@ -85,14 +85,14 @@ export default function Wishlist() {
             <div className="grow">
               <Link
                 href={`/book?_id=${book._id}`}
-                className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition"
+                className="text-xl font-semibold transition"
               >
                 {book.title}
               </Link>
               <p className="text-sm text-gray-500">
                 Author: {book.author.name || "Unknown Author"}
               </p>
-              <p className="text-lg font-bold text-green-600 mt-1">
+              <p className="text-lg font-bold mt-1">
                 {book.details?.price || "Price Unavailable"}
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function Wishlist() {
               <button
                 onClick={() => handleRemove(book._id)}
                 disabled={isRemoving}
-                className="p-1 text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                className="p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition"
                 title="Remove from Wishlist"
               >
                 {isRemoving ? (
@@ -110,11 +110,6 @@ export default function Wishlist() {
                   <XCircle className="w-6 h-6" />
                 )}
               </button>
-              <Link href={book.buy_links[0].url}>
-                <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                  Buy Now
-                </button>
-              </Link>
             </div>
           </div>
         ))}

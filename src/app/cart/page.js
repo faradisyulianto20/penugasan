@@ -4,6 +4,7 @@ import { useCart, useRemoveFromCart } from "@/hooks/useBooks";
 import Link from "next/link";
 import Image from "next/image";
 import { XCircle, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button"
 
 export default function Cart() {
   const { 
@@ -89,13 +90,13 @@ export default function Cart() {
             </div>
 
             <div className="grow">
-              <Link href={`/book?_id=${book._id}`} className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition">
+              <Link href={`/book?_id=${book._id}`} className="text-xl font-semibold transition">
                 {book.title}
               </Link>
               <p className="text-sm text-gray-500">
                 Author: {book.author.name || 'Unknown Author'}
               </p>
-              <p className="text-lg font-bold text-red-600 mt-1">
+              <p className="text-lg font-bol mt-1">
                 {book.details?.price || 'Price Unavailable'}
               </p>
             </div>
@@ -104,7 +105,7 @@ export default function Cart() {
               <button
                 onClick={() => handleRemove(book.id || book._id)}
                 disabled={isRemoving}
-                className="p-1 text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                className="p-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition"
                 title="Remove from Cart"
               >
                 {isRemoving ? (
@@ -120,14 +121,14 @@ export default function Cart() {
       </div>
       <div className="mt-8 pt-4 border-t-2 flex justify-end items-center">
         <h2 className="text-xl font-bold mr-4">Total:</h2>
-        <span className="text-xl font-bold text-blue-500">
-          ${totalHarga.toFixed(2)}
+        <span className="text-xl font-bold">
+          Rp{totalHarga.toFixed(2)}
         </span>
       </div>
       <div className="flex justify-end mt-4">
-         <button className="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
+         <Button>
            Proceed to Checkout
-         </button>
+         </Button>
       </div>
     </div>
   );
