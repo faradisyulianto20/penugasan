@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   Heart,
   ChevronDown,
+  ChevronRight,
   X,
 } from "lucide-react";
 import {
@@ -192,9 +193,7 @@ export default function Navbar() {
               href={"/cart"}
             >
               <ShoppingCart />
-              <span className="font-bold">
-                {cartCount}
-              </span>
+              <span className="font-bold">{cartCount}</span>
             </Link>
 
             <Link
@@ -202,11 +201,15 @@ export default function Navbar() {
               href={"/wishlist"}
             >
               <Heart />
-              <span className="font-bold">
-                {wishlistCount}
-              </span>
+              <span className="font-bold">{wishlistCount}</span>
             </Link>
           </div>
+        </div>
+      </div>
+      <div className="flex justify-center bg-white">
+        <div className="flex px-6 text-gray-500 w-full max-w-6xl pb-6">
+          <span className="font-semibold text-black">Home</span>{" "}
+          <ChevronRight /> Shop
         </div>
       </div>
     </div>

@@ -61,7 +61,6 @@ export function useRemoveFromCart() {
   return useMutation({
     mutationFn: (id) => bookService.removeFromCart(id),
     onSuccess: () => {
-      // Invalidate query 'cart' untuk memicu refetch dan update UI
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
